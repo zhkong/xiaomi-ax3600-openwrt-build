@@ -55,8 +55,9 @@ jobs:
       run: |
         TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
         echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}-3328" >>$GITHUB_ENV
-        latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][3-9]/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
-        echo "latest_release=${latest_release}" >>$GITHUB_ENV
+        # latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][3-9]/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
+        tag_name=$(date +%Y%m%d-%H%M)
+        echo "tag_name=${tag_name}" >>$GITHUB_ENV
     - name: Make Download
       run: |
         cd openwrt
@@ -82,33 +83,22 @@ jobs:
       run: |
         rm -rf ./artifact/
         mkdir -p ./artifact/
-        mv openwrt/bin/targets/qualcommax/ipq807x/* ./artifact/
+        mv openwrt/bin/targets/qualcommax/ipq807x/*squashfs-factory.* ./artifact/
+        mv openwrt/bin/targets/qualcommax/ipq807x/config.buildinfo ./artifact/
         cd ./artifact/
-        rm -rf packages
-        # ls -Ahl
-        # for file in $(ls *.gz); do
-        #   gzip -d $file
-        # done
-        # tar -I zstd -cvf $(date +%m-%d)-openwrt-r2s-pure.tar.zst *openwrt*r2s*
-        # rm -rf *openwrt*r2s*gz
-        # ls -Ahl
-        # sha256sum *openwrt*r2s*zst | tee $(date +%m-%d)-openwrt-r2s-pure.sha256sum
-        # ls -Ahl
+        ls -Ahl
     - name: Upload artifact
       uses: actions/upload-artifact@main
       with:
-        name: OpenWRT_${{ env.latest_release }}
+        name: OpenWRT_${{ env.tag_name }}
         path: ./artifact/
 
     - name: Create release
       id: create_release
       uses: ncipollo/release-action@v1.12.0
       with:
-        name: OpenWRT-${{ env.latest_release }}
+        name: ax3600-${{ env.tag_name }}
         allowUpdates: true
-        prerelease: true
-        tag: ${{ env.latest_release }}
-        commit: 23.05
         replacesArtifacts: true
         token: ${{ secrets.GITHUB_TOKEN }}
         artifacts: ./artifact/*
