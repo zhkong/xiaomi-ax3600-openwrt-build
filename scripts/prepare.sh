@@ -20,7 +20,7 @@ git clone https://github.com/jerrykuku/luci-theme-argon.git --single-branch --de
 git clone https://github.com/flytosky-f/openwrt-vlmcsd.git --single-branch --depth 1 package/new/vlmcsd
 git clone https://github.com/ssuperh/luci-app-vlmcsd-new.git --single-branch --depth 1 package/new/luci-app-vlmcsd-new
 # AutoCore
-svn export https://github.com/immortalwrt/immortalwrt/branches/openwrt-23.05/package/emortal/autocore package/new/autocore
+svn export https://github.com/zhkong/openwrt-pkg/branches/master/autocore package/new/autocore
 sed -i 's/"getTempInfo" /"getTempInfo", "getCPUBench", "getCPUUsage" /g' package/new/autocore/files/luci-mod-status-autocore.json
 
 rm -rf feeds/luci/modules/luci-base
