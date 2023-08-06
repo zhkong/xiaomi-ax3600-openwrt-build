@@ -2,13 +2,18 @@
 # @Author: zhkong
 # @Date: 2023-07-25 17:07:02
  # @LastEditors: zhkong
- # @LastEditTime: 2023-08-04 13:22:36
+ # @LastEditTime: 2023-08-06 21:08:38
  # @FilePath: /xiaomi-ax3600-openwrt-build/scripts/prepare.sh
 # @Description: Do not edit
 ###
 
-git clone https://github.com/zhkong/openwrt-ipq807x.git -b qualcommax-6.1-nss --single-branch openwrt
+git clone https://github.com/bitthief/openwrt.git -b qualcommax-6.1-nss --single-branch openwrt --depth 1
 cd openwrt
+
+git remote add upstream https://github.com/zhkong/openwrt-ipq807x.git
+git fetch upstream qualcommax-6.1-nss --depth 3
+git cherry-pick eaad44af90
+git cherry-pick 10c91d822e
 
 # 更新 Feeds
 ./scripts/feeds update -a
@@ -19,6 +24,10 @@ git clone https://github.com/vernesong/OpenClash.git --single-branch --depth 1 p
 git clone https://github.com/jerrykuku/luci-theme-argon.git --single-branch --depth 1  package/new/luci-theme-argon
 git clone https://github.com/flytosky-f/openwrt-vlmcsd.git --single-branch --depth 1 package/new/vlmcsd
 git clone https://github.com/ssuperh/luci-app-vlmcsd-new.git --single-branch --depth 1 package/new/luci-app-vlmcsd-new
+
+git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/new/mosdns
+git clone https://github.com/sbwml/v2ray-geodata package/new/v2ray-geodata
+
 # AutoCore
 svn export https://github.com/zhkong/openwrt-pkg/branches/master/autocore package/new/autocore
 sed -i 's/"getTempInfo" /"getTempInfo", "getCPUBench", "getCPUUsage" /g' package/new/autocore/files/luci-mod-status-autocore.json

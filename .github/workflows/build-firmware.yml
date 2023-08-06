@@ -99,7 +99,7 @@ jobs:
       with:
         name: ax3600-${{ env.tag_name }}
         allowUpdates: true
-        tag: ${{ env.latest_release }}
+        tag: ${{ env.tag_name }}
         replacesArtifacts: true
         token: ${{ secrets.GITHUB_TOKEN }}
         artifacts: ./artifact/*
