@@ -2,13 +2,14 @@
 # @Author: zhkong
 # @Date: 2023-07-25 17:07:02
 # @LastEditors: zhkong
-# @LastEditTime: 2023-08-07 02:06:04
+# @LastEditTime: 2023-08-07 09:17:03
 # @FilePath: /xiaomi-ax3600-openwrt-build/scripts/prepare.sh
 ###
 
 git clone https://github.com/bitthief/openwrt.git -b qualcommax-6.1-nss --single-branch openwrt --depth 1
 cd openwrt
 
+# 增加ax3600 stock布局
 git remote add upstream https://github.com/zhkong/openwrt-ipq807x.git
 git fetch upstream qualcommax-6.1-nss --depth 3
 git cherry-pick eaad44af90
@@ -26,7 +27,7 @@ git clone https://github.com/jerrykuku/luci-theme-argon.git --single-branch --de
 ## KMS激活
 git clone https://github.com/flytosky-f/openwrt-vlmcsd.git --single-branch --depth 1 package/new/vlmcsd
 git clone https://github.com/ssuperh/luci-app-vlmcsd-new.git --single-branch --depth 1 package/new/luci-app-vlmcsd-new
-## adguardhome
+## Adguard Home
 svn export https://github.com/immortalwrt/packages/branches/master/net/adguardhome package/new/adguardhome
 ## mosdns
 git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/new/mosdns
@@ -54,10 +55,9 @@ svn export https://github.com/immortalwrt/immortalwrt/branches/openwrt-23.05/pac
 bash ../scripts/preset-terminal-tools.sh
 
 # config file
-# cp ../config/xiaomi_ax3600-stock.config .config
 cp ../config/xiaomi_ax3600-stock.config .config
 make defconfig
 
-# # # 编译固件
+# 编译固件
 # make download -j$(nproc)
 # make -j$(nproc) || make -j1 V=s
