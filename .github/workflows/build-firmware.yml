@@ -53,9 +53,8 @@ jobs:
     - name: Get Architecture
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
-        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}-3328" >>$GITHUB_ENV
-        # latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][3-9]/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
+        LAST_COMMIT_HASH=$(curl -s "https://api.github.com/repos/bitthief/openwrt/commits/qualcommax-6.1-nss" | grep -m 1 '"sha":' | cut -d '"' -f 4 | cut -c 1-7)
+        echo "LAST_COMMIT_HASH=${LAST_COMMIT_HASH}" >> $GITHUB_ENV
         tag_name=$(date +%Y%m%d-%H%M)
         echo "tag_name=${tag_name}" >>$GITHUB_ENV
     - name: Make Download
@@ -97,9 +96,9 @@ jobs:
       id: create_release
       uses: ncipollo/release-action@v1.12.0
       with:
-        name: ax3600-${{ env.tag_name }}
+        name: ax3600-${{ env.tag_name }}-${{ env.LAST_COMMIT_HASH }}
         allowUpdates: true
-        tag: ${{ env.tag_name }}
+        tag: ${{ env.tag_name }}-${{ env.LAST_COMMIT_HASH }}
         replacesArtifacts: true
         token: ${{ secrets.GITHUB_TOKEN }}
         artifacts: ./artifact/*
