@@ -12,8 +12,8 @@ cd openwrt
 # 增加ax3600 stock布局
 git remote add upstream https://github.com/zhkong/openwrt-ipq807x.git
 git fetch upstream qualcommax-6.1-nss --depth 3
-git cherry-pick eaad44af90
-git cherry-pick 10c91d822e
+git cherry-pick d867eaa061
+git cherry-pick 9b6b287c39
 #如果checkout失败，说明有冲突，停止编译
 if [ $? -ne 0 ]; then
     echo "cherry-pick failed, please check"
