@@ -2,11 +2,11 @@
 # @Author: zhkong
 # @Date: 2023-07-25 17:07:02
  # @LastEditors: zhkong
- # @LastEditTime: 2023-08-14 02:16:43
+ # @LastEditTime: 2023-08-25 00:48:18
  # @FilePath: /xiaomi-ax3600-openwrt-build/scripts/prepare.sh
 ###
 
-git clone https://github.com/bitthief/openwrt.git -b qualcommax-6.1-nss --single-branch openwrt --depth 1
+git clone https://github.com/AgustinLorenzo/openwrt.git -b main --single-branch openwrt --depth 1
 cd openwrt
 
 # 增加ax3600 stock布局
@@ -38,8 +38,8 @@ sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/new/luci-ap
 # ## Adguard Home
 # svn export https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/adguardhome package/new/adguardhome
 ## mosdns
-git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/new/mosdns
-git clone https://github.com/sbwml/v2ray-geodata package/new/v2ray-geodata
+# git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/new/mosdns
+# git clone https://github.com/sbwml/v2ray-geodata package/new/v2ray-geodata
 
 # AutoCore
 svn export https://github.com/immortalwrt/immortalwrt/branches/master/package/emortal/autocore package/new/autocore
@@ -63,7 +63,7 @@ svn export https://github.com/immortalwrt/immortalwrt/branches/master/package/em
 bash ../scripts/preset-terminal-tools.sh
 
 # config file
-cp ../config/xiaomi_ax3600-stock.config .config
+cp ../config/new-config .config
 make defconfig
 
 # 编译固件
