@@ -59,6 +59,9 @@ svn export https://github.com/immortalwrt/immortalwrt/branches/master/package/em
 # 修复Architecture显示错误问题
 # sed -i 's/cpuinfo.cpuinfo || boardinfo.system/boardinfo.system/g' feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
 
+# fix luci-theme-argon css
+bash ../scripts/fix-argon.sh
+
 # 增加 oh-my-zsh
 bash ../scripts/preset-terminal-tools.sh
 
