@@ -2,7 +2,7 @@
 # @Author: zhkong
 # @Date: 2023-07-25 17:07:02
  # @LastEditors: zhkong
- # @LastEditTime: 2023-08-25 00:48:18
+ # @LastEditTime: 2023-08-29 17:50:45
  # @FilePath: /xiaomi-ax3600-openwrt-build/scripts/prepare.sh
 ###
 
@@ -11,9 +11,9 @@ cd openwrt
 
 # 增加ax3600 stock布局
 git remote add upstream https://github.com/zhkong/openwrt-ipq807x.git
-git fetch upstream qualcommax-6.1-nss --depth 3
-git cherry-pick d867eaa061
-git cherry-pick 9b6b287c39
+git fetch upstream xiaomi-ax3600-stock-layout --depth 3
+git cherry-pick e2bb765
+git cherry-pick 6f6eb1d
 #如果checkout失败，说明有冲突，停止编译
 if [ $? -ne 0 ]; then
     echo "cherry-pick failed, please check"
@@ -35,8 +35,6 @@ svn export https://github.com/immortalwrt/packages/branches/master/net/vlmcsd pa
 # edit package/new/luci-app-vlmcsd/Makefile
 sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/new/luci-app-vlmcsd/Makefile
 
-# ## Adguard Home
-# svn export https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/adguardhome package/new/adguardhome
 ## mosdns
 # git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/new/mosdns
 # git clone https://github.com/sbwml/v2ray-geodata package/new/v2ray-geodata
@@ -56,9 +54,6 @@ svn export https://github.com/immortalwrt/packages/branches/master/utils/coremar
 svn export https://github.com/immortalwrt/immortalwrt/branches/master/package/emortal/default-settings package/emortal/default-settings
 # svn export https://github.com/immortalwrt/immortalwrt/branches/openwrt-23.05/package/utils/mhz package/utils/mhz
 
-# 修复Architecture显示错误问题
-# sed -i 's/cpuinfo.cpuinfo || boardinfo.system/boardinfo.system/g' feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
-
 # fix luci-theme-argon css
 bash ../scripts/fix-argon.sh
 
@@ -70,5 +65,5 @@ cp ../config/new-config .config
 make defconfig
 
 # 编译固件
-# make download -j$(nproc)
-# make -j$(nproc) || make -j1 V=s
+make download -j$(nproc)
+make -j$(nproc) || make -j1 V=s
