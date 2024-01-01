@@ -2,7 +2,7 @@
 # @Author: zhkong
 # @Date: 2023-07-25 17:07:02
  # @LastEditors: zhkong
- # @LastEditTime: 2024-01-01 23:50:22
+ # @LastEditTime: 2024-01-02 00:48:43
  # @FilePath: /xiaomi-ax3600-openwrt-build/scripts/prepare.sh
 ###
 
@@ -16,6 +16,8 @@ cd openwrt
 # 添加第三方软件包
 ## openclash
 git clone https://github.com/vernesong/OpenClash.git --single-branch --depth 1 package/new/luci-openclash
+bash ../scripts/download-openclash-core.sh
+
 ## argon theme
 git clone https://github.com/jerrykuku/luci-theme-argon.git --single-branch --depth 1 package/new/luci-theme-argon
 ## KMS激活
@@ -44,7 +46,7 @@ svn export https://github.com/immortalwrt/immortalwrt/branches/master/package/em
 # svn export https://github.com/immortalwrt/immortalwrt/branches/openwrt-23.05/package/utils/mhz package/utils/mhz
 
 # fix luci-theme-argon css
-bash ../scripts/fix-argon.sh
+bash ../scripts/fix-argon-css.sh
 
 # 增加 oh-my-zsh
 bash ../scripts/preset-terminal-tools.sh
