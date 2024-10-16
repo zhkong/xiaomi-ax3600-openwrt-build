@@ -6,7 +6,7 @@
  # @FilePath: /xiaomi-ax3600-openwrt-build/scripts/prepare.sh
 ###
 
-git clone https://github.com/zhkong/openwrt-ipq807x.git --single-branch openwrt --depth 1
+git clone https://github.com/AgustinLorenzo/openwrt.git --single-branch openwrt --depth 1
 cd openwrt
 
 # 更新 Feeds
@@ -47,13 +47,13 @@ mv temp/packages/utils/coremark package/new/coremark
 mv temp/immortalwrt/package/emortal/default-settings package/new/default-settings
 
 # fix luci-theme-argon css
-bash ../scripts/fix-argon-css.sh
+# bash ../scripts/fix-argon-css.sh
 
 # 增加 oh-my-zsh
 bash ../scripts/preset-terminal-tools.sh
 
 # config file
-cp ../config/xiaomi_ax3600-stock.config .config
+cp ../config/redmi-ax6 .config
 make defconfig
 
 # # 编译固件
